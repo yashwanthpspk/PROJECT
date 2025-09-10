@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Add New User</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="form-container">
+            <h2 class="mb-4">Add New User</h2>
+            
+            <form th:action="@{/users}" th:object="${userDto}" method="post" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" th:field="*{phone}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="/users" class="btn btn-secondary me-md-2">View All Users</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Client-side form validation
+        (() => {
+            'use strict'
+            
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+            
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>
